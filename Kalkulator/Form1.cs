@@ -12,183 +12,77 @@ namespace Kalkulator
 {
     public partial class Form1 : Form
     {
-        int pierwsza_liczba;
-        int druga_liczba;
+        public double firstNumber;
+        public double secondNumber;
+        public bool operationProof = false;
 
-        byte dzialanie;
-        bool klawisz_dzialania = false;
+        enum Operation
+        {
+            plus,
+            minus,
+            multiplication,
+            division
+         }
 
+        Operation operation = new Operation();
+        
+        readonly calculator calc = new calculator();
 
         public Form1()
         {
             InitializeComponent();
+            display.Text = "0";
+        }
+
+        private void equal_Click(object sender, EventArgs e)
+        {
+            calc.SecondNumber = Double.Parse(display.Text);
+            display.Clear();
+
+            switch (operation)
+            {
+                case Operation.plus:
+                    display.Text = calc.AddNumbers(firstNumber, secondNumber).ToString();
+                    break;
+                case Operation.minus:
+                    display.Text = calc.SubNumbers(firstNumber, secondNumber).ToString();
+                    break;
+                case Operation.multiplication:
+                    display.Text = calc.MultiplyNumbers(firstNumber, secondNumber).ToString();
+                    break;
+                case Operation.division:
+                    display.Text = calc.DivNumbers(firstNumber, secondNumber).ToString();
+                    break;
+            }
+        }
+
+        private void number_Click(object sender, EventArgs e)
+        {
+            if(operationProof)
+            {
+                operationProof = false;
+                display.Clear();
+            }
+
+            if (display.Text == "0")
+            {
+                display.Clear();
+            }
+               
+            display.AppendText(((Button)sender).Text);
+        }
+     
+
+        private void operation_Click(object sender, EventArgs e)
+        {
+            operationProof = true;
+            operation = (Operation)Enum.Parse(typeof(Operation),((Button)sender).AccessibleDescription);
+            calc.FirstNumber = Double.Parse(display.Text);  
         }
 
         private void end_Click(object sender, EventArgs e)
         {
             Application.Exit();
-        }
-
-        private void zero_Click(object sender, EventArgs e)
-        {
-            if (klawisz_dzialania)
-            {
-                display.Clear();
-                klawisz_dzialania = false;
-            }
-
-            display.AppendText("0");
-        }
-
-        private void one_Click(object sender, EventArgs e)
-        {
-
-            if (klawisz_dzialania)
-            {
-                display.Clear();
-                klawisz_dzialania = false;
-            }
-
-            display.AppendText("1"); 
-        }
-
-        private void two_Click(object sender, EventArgs e)
-        {
-            if (klawisz_dzialania)
-            {
-                display.Clear();
-                klawisz_dzialania = false;
-            }
-            display.AppendText("2");
-        }
-
-        private void three_Click(object sender, EventArgs e)
-        {
-            if (klawisz_dzialania)
-            {
-                display.Clear();
-                klawisz_dzialania = false;
-            }
-            display.AppendText("3");
-        }
-
-        private void four_Click(object sender, EventArgs e)
-        {
-            if (klawisz_dzialania)
-            {
-                display.Clear();
-                klawisz_dzialania = false;
-            }
-
-            display.AppendText("4");
-        }
-
-        private void five_Click(object sender, EventArgs e)
-        {
-            if (klawisz_dzialania)
-            {
-                display.Clear();
-                klawisz_dzialania = false;
-            }
-
-            display.AppendText("5");
-        }
-
-        private void six_Click(object sender, EventArgs e)
-        {
-
-            if (klawisz_dzialania)
-            {
-                display.Clear();
-                klawisz_dzialania = false;
-            }
-            display.AppendText("6");
-        }
-
-        private void seven_Click(object sender, EventArgs e)
-        {
-            if (klawisz_dzialania)
-            {
-                display.Clear();
-                klawisz_dzialania = false;
-            }
-
-            display.AppendText("7");
-        }
-
-        private void eight_Click(object sender, EventArgs e)
-        {
-            if (klawisz_dzialania)
-            {
-                display.Clear();
-                klawisz_dzialania = false;
-            }
-            display.AppendText("8");
-        }
-
-        private void nine_Click(object sender, EventArgs e)
-        {
-            if (klawisz_dzialania)
-            {
-                display.Clear();
-                klawisz_dzialania = false;
-            }
-            display.AppendText("9");
-        }
-
-
-        private void equal_Click(object sender, EventArgs e)
-        {
-            druga_liczba = Int32.Parse(display.Text);
-
-            
-
-            switch (dzialanie)
-            {
-                case 0:
-                    display.Text = (pierwsza_liczba + druga_liczba).ToString();
-                    break;
-                case 1:
-                    display.Text = (pierwsza_liczba - druga_liczba).ToString();
-                    break;
-                case 2:
-                    display.Text = (pierwsza_liczba * druga_liczba).ToString();
-                    break;
-                case 3:
-                    display.Text = ((double)(pierwsza_liczba) / (double)(druga_liczba)).ToString();
-                    break;
-            }
-
-            klawisz_dzialania = true;
-
-        }
-
-        private void plus_Click(object sender, EventArgs e)
-        {
-            pierwsza_liczba = Int32.Parse(display.Text);
-            klawisz_dzialania = true;
-            dzialanie = 0;
-        }
-
-        private void minus_Click(object sender, EventArgs e)
-        {
-            pierwsza_liczba = Int32.Parse(display.Text);
-            klawisz_dzialania = true;
-            dzialanie = 1;
-        }
-
-        private void multiplication_Click(object sender, EventArgs e)
-        {
-            pierwsza_liczba = Int32.Parse(display.Text);
-            klawisz_dzialania = true;
-            dzialanie = 2;
-        }
-
-        private void division_Click(object sender, EventArgs e)
-        {
-            pierwsza_liczba = Int32.Parse(display.Text);
-            klawisz_dzialania = true;
-            dzialanie = 3;
         }
     }
 }
